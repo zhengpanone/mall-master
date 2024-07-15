@@ -169,7 +169,7 @@
   import {fetchList as fetchProductAttrList} from '@/api/productAttr'
   import {fetchList as fetchBrandList} from '@/api/brand'
   import {fetchListWithChildren} from '@/api/productCate'
-  import {getGoods,deleteGoods,getBrands,getCategorys,putGoodsStatus,getBrandsByCate } from '@/apis/goods'
+  import {getGoods,deleteGoods,getBrands,getCategoryList,putGoodsStatus,getBrandsByCate } from '@/apis/goods'
 
   const defaultListQuery = {
     keyword: null,
@@ -300,7 +300,7 @@
         });
       },
       getProductCateList() {
-        getCategorys().then(response => {
+        getCategoryList().then(response => {
           let list = response;
           this.productCateOptions = list;
           // for (let i = 0; i < list.length; i++) {

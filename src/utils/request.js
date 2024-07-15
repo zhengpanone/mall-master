@@ -21,7 +21,7 @@ service.interceptors.request.use(config => {
   Promise.reject(error)
 })
 
-// respone拦截器
+// response拦截器
 service.interceptors.response.use(
   response => {
   /**
@@ -49,16 +49,25 @@ service.interceptors.response.use(
         })
         this.$route.push('/login')
       }
-      return Promise.reject('error')
+       // 其他错误情况
+      ElMessage.error(response.data.msg || '请求失败，请稍后重试')
+      // 手动返回promise异常
+      return Promise.reject(response.data)
     } 
-    // else {
       return response.data
-    // }
   },
   error => {
     console.log('err' + error)// for debug
+    if(error.response.status === 404) {
+      Message({
+        message: error.response.data,
+        type: 'error',
+        duration: 3 * 1000
+      })
+    return Promise.reject(error)
+    }
     Message({
-      message: error.msg,
+      message: error.response.data.msg,
       type: 'error',
       duration: 3 * 1000
     })

@@ -1,6 +1,20 @@
 import request from '@/utils/request'
 let userUrl = "http://39.107.30.137:8021"
 
+export function login(params) {
+  return request({
+    url:userUrl+'/v1/user/pwd_login',
+    method:'post',
+    data:params
+  })
+}
+
+export function getCaptcha(params) {
+  return request({
+    url:userUrl+'/v1/base/captcha',
+    method:'get'
+  })
+}
 
 export function createBrand(data) {
   return request({

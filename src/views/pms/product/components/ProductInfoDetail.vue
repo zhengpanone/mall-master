@@ -123,7 +123,7 @@
 <script>
   import {fetchListWithChildren} from '@/api/productCate'
   import {fetchList as fetchBrandList} from '@/api/brand'
-  import {getGoodsEach,getCategorys,getBrands,putGoods,createGoods,getBrandsByCate } from '@/apis/goods';
+  import {getGoodsEach,getCategoryList,getBrands,putGoods,createGoods,getBrandsByCate } from '@/apis/goods';
   import MultiUpload from '@/components/Upload/multiUpload'
 
   export default {
@@ -299,7 +299,7 @@
         this.disabled = false
       },
       getProductCateList() {
-        getCategorys().then(response => {
+        getCategoryList().then(response => {
           let list = response;
           console.log('分类', response)
           this.selectProductCateValue = response

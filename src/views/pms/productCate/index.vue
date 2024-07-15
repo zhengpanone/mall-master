@@ -52,7 +52,7 @@
 
 <script>
   import {fetchList,deleteProductCate,updateShowStatus,updateNavStatus} from '@/api/productCate'
-  import {getCategorys,deleteCategorys,putCategorys} from '@/apis/goods'
+  import {getCategoryList,deleteCategorys,putCategorys} from '@/apis/goods'
 
   export default {
     name: "productCateList",
@@ -92,7 +92,7 @@
       },
       getList() {
         this.listLoading = true;
-        getCategorys().then(response => {
+        getCategoryList().then(response => {
           console.log(response)
           this.listLoading = false;
           this.list = response;

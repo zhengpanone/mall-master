@@ -30,7 +30,7 @@
     </div>
 </template>
 <script>
-import {getBrands,getCategorys,getBrandToCateDetail,createBrandToCate,putBrandToCate} from '@/apis/goods'
+import {getBrands,getCategoryList,getBrandToCateDetail,createBrandToCate,putBrandToCate} from '@/apis/goods'
   export default {
     name: 'editBrandToCate',
     data() {
@@ -67,7 +67,7 @@ import {getBrands,getCategorys,getBrandToCateDetail,createBrandToCate,putBrandTo
         });
       },
       getProductCateList() {
-        getCategorys().then(response => {
+        getCategoryList().then(response => {
           this.productCateOptions = response;
           let _this = this
           if(this.productCateInfo.category_id){

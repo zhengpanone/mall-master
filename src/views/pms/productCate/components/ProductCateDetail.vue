@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import {postCategorys,putCategorys,getCategoryDetail,getCategorys} from '@/apis/goods';
+  import {postCategorys,putCategorys,getCategoryDetail,getCategoryList} from '@/apis/goods';
   import SingleUpload from '@/components/Upload/singleUpload';
 // import { delete } from 'vue/types/umd';
 
@@ -102,7 +102,7 @@
       }
     },
     created() {
-      getCategorys().then(res=> {
+      getCategoryList().then(res=> {
         this.productCate =this.defaultCate.concat(res)
       })
       if (this.isEdit) {

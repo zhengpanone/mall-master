@@ -82,7 +82,7 @@
 
 <script>
   import {isvalidUsername} from '@/utils/validate';
-  import {login,getCaptcha} from '@/apis/goods';
+  import {login,getCaptcha} from '@/apis/login';
   import {setSupport,getSupport,setCookie,getCookie} from '@/utils/support';
   import login_center_bg from '@/assets/images/login_center_bg.png'
 import { getToken, setToken, removeToken } from '@/utils/auth'
