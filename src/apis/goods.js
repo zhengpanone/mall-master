@@ -37,7 +37,7 @@ export function putCategorys(id,params) {
 }
 export function deleteCategorys(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorys/'+id,
+    url:goodsUrl+'/v1/categorys/'+id,
     method:'delete',
     data:params
   })
@@ -45,21 +45,21 @@ export function deleteCategorys(id,params) {
 // 品牌
 export function getBrands(params) {
   return request({
-    url:goodsUrl+'/g/v1/brands',
+    url:goodsUrl+'/v1/goods/brand',
     method:'get',
     params:params
   })
 }
 export function getBrandsByCate(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands/'+id,
+    url:goodsUrl+'/v1/goods/category-brands/'+id,
     method:'get',
     params:params
   })
 }
 export function createBrand(data) {
   return request({
-    url:goodsUrl+'/g/v1/brands',
+    url:goodsUrl+'/v1/goods/brands',
     method:'post',
     data:data
   })
@@ -73,7 +73,7 @@ export function putBrands(id,params) {
 }
 export function deleteBrands(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/brands/'+id,
+    url:goodsUrl+'/v1/goods/brands/'+id,
     method:'delete',
     data:params
   })
@@ -81,7 +81,7 @@ export function deleteBrands(id,params) {
 // 品牌+分类关系
 export function getBrandToCate(params) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands',
+    url:goodsUrl+'/v1/goods/category-brand/list',
     method:'get',
     params:params
   })
@@ -89,28 +89,28 @@ export function getBrandToCate(params) {
 
 export function getBrandToCateDetail(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands/'+id,
+    url:goodsUrl+'/g/v1/category-brand/'+id,
     method:'get',
     params:params
   })
 }
 export function createBrandToCate(data) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands',
+    url:goodsUrl+'/v1/goods/category-brand',
     method:'post',
     data:data
   })
 }
 export function putBrandToCate(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands/'+id,
+    url:goodsUrl+'/v1/goods/category-brands/'+id,
     method:'put',
     data:params
   })
 }
 export function deleteBrandToCate(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorybrands/'+id,
+    url:goodsUrl+'/v1/goods/category-brands/'+id,
     method:'delete',
     data:params
   })
@@ -118,21 +118,21 @@ export function deleteBrandToCate(id,params) {
 // 商品管理
 export function getGoods(params) {
   return request({
-    url:goodsUrl+'/g/v1/goods',
+    url:goodsUrl+'/v1/goods/goods/list',
     method:'get',
     params:params
   })
 }
 export function getGoodsEach(params) {
   return request({
-    url:goodsUrl+'/g/v1/goods/'+params,
+    url:goodsUrl+'/v1/goods/goods/list'+params,
     method:'get',
   })
 }
 
 export function createGoods(data) {
   return request({
-    url:goodsUrl+'/g/v1/goods',
+    url:goodsUrl+'/v1/goods',
     method:'post',
     data:data
   })
