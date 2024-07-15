@@ -4,27 +4,27 @@ let host = 'http://shop.projectsedu.com';
 let baseUrl = "http://39.107.30.137:8000"
 let goodsUrl = "http://127.0.0.1:8022"
 let orderUrl = "http://127.0.0.1:8023"
-let userUrl = "http://127.0.0.1:8021"
+let userUrl = "http://127.0.0.1:18021"
 let userOpUrl = "http://127.0.0.1:8027"
 export let ossUrl = "http://127.0.0.1:8029"
 // 分类
 export function getCategorys(params) {
   return request({
-    url:goodsUrl+'/g/v1/categorys',
+    url:goodsUrl+'/v1/categorys',
     method:'get',
     params:params
   })
 }
 export function login(params) {
   return request({
-    url:userUrl+'/u/v1/user/pwd_login',
+    url:userUrl+'/v1/user/pwd_login',
     method:'post',
     data:params
   })
 }
 export function getCaptcha(params) {
   return request({
-    url:userUrl+'/u/v1/base/captcha',
+    url:userUrl+'/v1/base/captcha',
     method:'get'
   })
 }

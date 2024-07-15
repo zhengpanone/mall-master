@@ -39,7 +39,7 @@
         <el-form-item style="margin-bottom: 60px;text-align: center">
                     <!-- @keyup.enter.native="handleLogin" -->
           <el-input name="captcha"
-                    :type="pwdType"
+                    type="text"
                     v-model="loginForm.captcha"
                     autoComplete="on"
                     placeholder="请输入验证码">
@@ -165,6 +165,7 @@ import Cookies from 'js-cookie'
               _this.loading = false;
               _this.$router.push({path: '/'})
             }).catch(error => {
+              _this.loading = false;
             })
           }
         })
