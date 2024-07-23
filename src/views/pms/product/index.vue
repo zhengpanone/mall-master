@@ -78,7 +78,7 @@
         </el-table-column>
         <el-table-column label="商品分类" align="center">
           <template slot-scope="scope">
-            <p>{{scope.row.ctegory.name}}</p>
+            <p>{{scope.row.category.name}}</p>
           </template>
         </el-table-column>
         <el-table-column label="价格/货号" width="120" align="center">

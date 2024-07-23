@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/token': {     //这里最好有一个 /
-      //   target: 'http://39.107.30.137:8082',  // 后台接口域名
+      // '/': {     //这里最好有一个 /
+      //   target: 'http://127.0.0.1:18082',  // 后台接口域名
       //   ws: true,        //如果要代理 websockets，配置这个参数
       //   secure: false,  // 如果是https接口，需要配置这个参数
       //   changeOrigin: true,  //是否跨域
       //   pathRewrite:{
-      //       '^/token':''
+      //       '^/':''
       //   }
       // },
       // '/g': {     //这里最好有一个 /
@@ -32,7 +32,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: '127.0.0.1', // can be overwritten by process.env.HOST
     port: 8090, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

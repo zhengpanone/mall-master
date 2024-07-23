@@ -17,20 +17,20 @@ export function getCategoryList(params) {
 }
 export function getCategoryDetail(id) {
   return request({
-    url:goodsUrl+'/g/v1/categorys/'+id,
+    url:goodsUrl+'/v1/categorys/'+id,
     method:'get'
   })
 }
 export function postCategorys(params) {
   return request({
-    url:goodsUrl+'/g/v1/categorys',
+    url:goodsUrl+'/v1/categorys',
     method:'post',
     data:params
   })
 }
 export function putCategorys(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/categorys/'+id,
+    url:goodsUrl+'/v1/categorys/'+id,
     method:'put',
     data:params
   })
@@ -45,14 +45,14 @@ export function deleteCategorys(id,params) {
 // 品牌
 export function getBrands(params) {
   return request({
-    url:goodsUrl+'/v1/goods/brand',
+    url:goodsUrl+'/v1/goods/brand/list',
     method:'get',
     params:params
   })
 }
 export function getBrandsByCate(id,params) {
   return request({
-    url:goodsUrl+'/v1/goods/category-brands/'+id,
+    url:goodsUrl+'/v1/goods/category-brand/'+id,
     method:'get',
     params:params
   })
@@ -89,7 +89,7 @@ export function getBrandToCate(params) {
 
 export function getBrandToCateDetail(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/category-brand/'+id,
+    url:goodsUrl+'/v1/category-brand/'+id,
     method:'get',
     params:params
   })
@@ -103,14 +103,14 @@ export function createBrandToCate(data) {
 }
 export function putBrandToCate(id,params) {
   return request({
-    url:goodsUrl+'/v1/goods/category-brands/'+id,
+    url:goodsUrl+'/v1/goods/category-brand/'+id,
     method:'put',
     data:params
   })
 }
 export function deleteBrandToCate(id,params) {
   return request({
-    url:goodsUrl+'/v1/goods/category-brands/'+id,
+    url:goodsUrl+'/v1/goods/category-brand/'+id,
     method:'delete',
     data:params
   })
@@ -139,21 +139,21 @@ export function createGoods(data) {
 }
 export function putGoods(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/goods/'+id,
+    url:goodsUrl+'/v1/goods/'+id,
     method:'put',
     data:params
   })
 }
 export function deleteGoods(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/goods/'+id,
+    url:goodsUrl+'/v1/goods/'+id,
     method:'delete',
     data:params
   })
 }
 export function putGoodsStatus(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/goods/'+id,
+    url:goodsUrl+'/v1/goods/'+id,
     method:'patch',
     data:params
   })
@@ -347,7 +347,7 @@ export function updateBrand(id,data) {
 
 export function getBanners(params) {
   return request({
-    url:goodsUrl+'/g/v1/banners',
+    url:goodsUrl+'/v1/banners',
     method:'get',
     params:params
   })
@@ -355,21 +355,21 @@ export function getBanners(params) {
 
 export function createBanner(data) {
   return request({
-    url:goodsUrl+'/g/v1/banners',
+    url:goodsUrl+'/v1/banners',
     method:'post',
     data:data
   })
 }
 export function putBanner(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/banners/'+id,
+    url:goodsUrl+'/v1/banners/'+id,
     method:'put',
     data:params
   })
 }
 export function deleteBanners(id,params) {
   return request({
-    url:goodsUrl+'/g/v1/banners/'+id,
+    url:goodsUrl+'/v1/banners/'+id,
     method:'delete',
     data:params
   })

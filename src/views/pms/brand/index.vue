@@ -50,8 +50,8 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         layout="total, sizes,prev, pager, next,jumper"
-        :page-size="listQuery.pnum"
-        :current-page.sync="pageNum"
+        :page-size="listQuery.pageSize"
+        :current-page.sync="currentPage"
         :total="total">
         <!-- :page-sizes="[5,10,15]" -->
       </el-pagination>
@@ -77,10 +77,10 @@
           }
         ],
         operateType: null,
-        pageNum:0,
+        currentPage: 0,
         listQuery: {
-          pn: 1,
-          pnum: 10
+          pageNum: 1,
+          pageSize: 10
         },
         list: [],
         total: null,
@@ -100,8 +100,8 @@
           this.total = response.total;
           this.totalPage = response.data.totalPage;
           this.pageSize = response.data.pageSize;
-          this.pageNum  = this.listQuery.pn
-          this.listQuery.pn = response.data.length==this.listQuery.pnum?this.listQuery.pn+2:this.listQuery.pn
+          this.currentPage  = this.listQuery.pageNum
+          this.listQuery.pageNum = response.data.length==this.listQuery.pageSize?this.listQuery.pageNum+2:this.listQuery.pageNum
         });
       },
       handleSelectionChange(val) {
@@ -170,12 +170,12 @@
         });
       },
       handleSizeChange(val) {
-        this.listQuery.pn = 1;
-        this.listQuery.pnum = val;
+        this.listQuery.pageNum = 1;
+        this.listQuery.pageSize = val;
         this.getList();
       },
       handleCurrentChange(val) {
-        this.listQuery.pn = val;
+        this.listQuery.pageNum = val;
         this.getList();
       },
       searchBrandList() {

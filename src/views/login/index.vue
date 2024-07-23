@@ -49,7 +49,7 @@
 
         </el-form-item>
         <el-form-item style="margin-bottom: 30px;text-align: center">
-          <el-tag>用户名/密码: 18782222220/admin123</el-tag>
+          <el-tag>用户名/密码: 13058318607/admin123</el-tag>
         </el-form-item>
         <el-form-item style="margin-bottom: 60px;text-align: center">
           <el-button style="width: 100%" type="primary" :loading="loading" @click="handleLogin">
@@ -108,7 +108,7 @@ import Cookies from 'js-cookie'
       };
       return {
         loginForm: {
-          mobile: '18782222220',
+          mobile: '13058318607',
           password: 'admin123',
         },
         loginRules: {
@@ -127,10 +127,10 @@ import Cookies from 'js-cookie'
       this.loginForm.mobile = getCookie("mobile");
       this.loginForm.password = getCookie("password");
       if(this.loginForm.mobile === undefined||this.loginForm.mobile==null||this.loginForm.mobile===''){
-        this.loginForm.mobile = 'admin';
+        this.loginForm.mobile = '13058318607';
       }
       if(this.loginForm.password === undefined||this.loginForm.password==null){
-        this.loginForm.password = '';
+        this.loginForm.password = 'admin123';
       }
       this.getCaptchas()
     },
