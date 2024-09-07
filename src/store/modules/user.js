@@ -28,12 +28,12 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.mobile.trim()
-      console.log(userInfo)
+      console.log("userInfo-----",userInfo)
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
-          debugger
+          console.log("userInfo-----",userInfo)
           const data = response.data
-          const tokenStr = data.token
+          const tokenStr = data.token      
           setToken(tokenStr)
           commit('SET_TOKEN', tokenStr)
           // resolve(data)

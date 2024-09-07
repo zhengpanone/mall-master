@@ -14,24 +14,17 @@
       <el-table ref="productTable"
                 :data="list"
                 style="width: 100%"
-                @selection-change="handleSelectionChange"
+                @selection-change="handleCurrentChange"
                 v-loading="listLoading"
                 border>
-        <!-- <el-table-column type="selection" align="center"></el-table-column> -->
-        <!-- <el-table-column label="编号" align="center">
-          <template slot-scope="scope">{{scope.row.id}}</template>
-        </el-table-column> -->
-        <!-- <el-table-column label="商品图片" width="120" align="center">
-          <template slot-scope="scope"><img style="height: 80px" :src="scope.row.pic"></template>
-        </el-table-column> -->
         <el-table-column label="用户姓名" align="center">
           <template slot-scope="scope">
-            <p>{{scope.row.name}}</p>
+            <p>{{scope.row.nickName}}</p>
           </template>
         </el-table-column>
         <el-table-column label="用户性别" align="center">
           <template slot-scope="scope">
-            <p>{{genderDic[scope.row.gender]}}</p>
+            <p>{{genderDic[scope.row.gender]?genderDic[scope.row.gender]:'未知'}}</p>
           </template>
         </el-table-column>
         <el-table-column label="电话" align="center">
@@ -70,7 +63,7 @@
   } from '@/api/product'
   import {fetchList as fetchSkuStockList,update as updateSkuStockList} from '@/api/skuStock'
   import {fetchList as fetchProductAttrList} from '@/api/productAttr'
-  import {getUserList} from '@/apis/goods'
+  import {getUserList} from '@/api/user'
   import {fetchListWithChildren} from '@/api/productCate'
   import {getGoods} from '@/apis/goods'
 
@@ -138,8 +131,8 @@
         ],
         operateType: null,
         listQuery: {
-          pn:1,
-          pnum:20
+          pageNum:1,
+          pageSize:10
         },
         list: [],
         total: null,
@@ -193,19 +186,19 @@
         this.listLoading = true;
         getUserList(this.listQuery).then(response => {
           this.listLoading = false;
-          this.list = this.list.concat(response.data);
+          this.list = response.data;
           this.total = response.total;
-          this.pageNum  = this.listQuery.pn
-          this.listQuery.pn = response.data.length==this.listQuery.pnum?this.listQuery.pn+2:this.listQuery.pn
+          this.pageNum  = this.listQuery.pageNum
+          this.listQuery.pageNum = response.data.length==this.listQuery.pageNum?this.listQuery.pageNum+2:this.listQuery.pageNum
         });
       },
       handleSizeChange(val) {
-        this.listQuery.pn = 1;
-        this.listQuery.pnum = val;
+        this.listQuery.pageNum = 1;
+        this.listQuery.pageSize = val;
         this.getList();
       },
       handleCurrentChange(val) {
-        this.listQuery.pn = val;
+        this.listQuery.pageNum = val;
         this.getList();
       },
     }

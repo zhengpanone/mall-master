@@ -132,7 +132,7 @@ export function getGoodsEach(params) {
 
 export function createGoods(data) {
   return request({
-    url:goodsUrl+'/v1/goods',
+    url:goodsUrl+'/v1/goods/goods/create',
     method:'post',
     data:data
   })
@@ -297,15 +297,7 @@ export function deleteaddress(id,params) {
   })
 }
 
-// 用户列表
 
-export function getUserList(params) {
-  return request({
-    url:userUrl+'/u/v1/user',
-    method:'get',
-    params:params
-  })
-}
 export function updateShowStatus(data) {
   return request({
     url:'/brand/update/showStatus',

@@ -423,7 +423,6 @@
           })
         }else {
           createGoods(this.value).then(res=> {
-            console.log('sdfsdfsdf')
              this.$notify({
                 title: '提示',
                 message: '新建成功',
