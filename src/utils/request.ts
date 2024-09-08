@@ -76,9 +76,40 @@ request.interceptors.response.use(
   },
   (error: AxiosError) => {
     // eventEmiter.emit('API:UN_AUTH')
+    // 处理响应错误
+    let errorMessage = '发生未知错误';
+    if (error.response) {
+      // 服务器响应了一个错误
+      const responseData = error.response.data;
+    // 类型检查和断言
+    if (typeof responseData === 'string') {
+      errorMessage = responseData;
+    } else if (typeof responseData === 'object' && responseData !== null) {
+      if ('msg' in responseData) {
+        errorMessage = (responseData as { msg: string }).msg;
+      } else if ('message' in responseData) {
+        errorMessage = (responseData as { message: string }).message;
+      }
+    }
+     
+    } else if (error.request) {
+      // 请求已发出但没有收到响应
+      errorMessage = '请求失败，服务器未响应';
+    } else {
+      // 其他错误
+      errorMessage = error.message;
+    }
+    ElMessage({
+      message: errorMessage,
+      type: 'error',
+      duration: 1000
+    });
     return Promise.reject(error)
   }
 )
+
+
+
 
 export default <T = any>(config: AxiosRequestConfig) => {
   return request(config).then((res) => {

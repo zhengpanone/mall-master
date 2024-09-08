@@ -2,19 +2,21 @@ import { RouteRecordRaw, RouterView } from 'vue-router'
 
 const routes: RouteRecordRaw = {
   path: '/product',
-  name: 'product',
+  name: 'pms',
   component: RouterView,
   meta: {
     title: '商品',
+    icon: 'product'
   },
   children: [
     {
       path: 'product_list',
       name: 'product_list',
-      component: () => import('@/views/product/list/index.vue'),
+      component: () => import('@/views/pms/product/index.vue'),
       meta: {
         // 自定义元数据
         title: '商品列表',
+        icon: 'product-list'
       },
     },
     {
