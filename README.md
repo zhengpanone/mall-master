@@ -1,1 +1,1 @@
-backend: https://github.com/zhengpanone/mxshop.git
+# lims-web 项目
