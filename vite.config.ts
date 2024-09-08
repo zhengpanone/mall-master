@@ -2,11 +2,13 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { viteMockServe } from 'vite-plugin-mock'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx({}), viteMockServe({
+  plugins: [vue(), vueJsx({}), 
+    viteMockServe({
     mockPath: "src/mock",//设置mock文件存储目录
     localEnabled: true,//设置是否启用本地mock文件
     prodEnabled: true,//设置打包是否启用 mock 功能
@@ -16,8 +18,14 @@ export default defineConfig({
         setupProdMockServer();
       `,//如果生产环境开启了 mock 功能,即prodEnabled=true.则该代码会被注入到injectFile对应的文件的底部。默认为main.{ts,js}
     logger: true,//是否在控制台显示请求日志
-  }
-  )],
+  }),    
+  createSvgIconsPlugin({
+    // 指定需要缓存的图标文件夹
+    iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
+    // 指定符号 ID 格式
+    symbolId: 'icon-[name]',
+ 
+  }),],
   resolve: {
     alias: {
       '@': path.join(__dirname, 'src'),

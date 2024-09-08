@@ -3,23 +3,23 @@
     <el-card class="login-form-layout">
       <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginFormRef" label-position="left">
         <div style="text-align: center">
-          <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
+          <SvgIcon name="login-mall" class="color-main" style="width: 56px;height: 56px;color:#409EFF"></SvgIcon>
         </div>
         <h2 class="login-title color-main">慕学生鲜-后台管理系统</h2>
         <el-form-item prop="mobile">
           <el-input name="mobile" type="text" v-model:value="loginForm.mobile" autoComplete="on" placeholder="请输入手机号码">
             <span slot="prefix">
-              <svg-icon icon-class="user" class="color-main"></svg-icon>
+              <SvgIcon name="user" class="color-main"></SvgIcon>
             </span>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input name="password" :type="pwdType" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码">
             <span slot="prefix">
-              <svg-icon icon-class="password" class="color-main"></svg-icon>console.log();
+              <SvgIcon name="password"></SvgIcon>
             </span>
             <span slot="suffix" @click="showPwd">
-              <svg-icon icon-class="eye" class="color-main"></svg-icon>
+              <SvgIcon name="eye" class="color-main"></SvgIcon>
             </span>
           </el-input>
         </el-form-item>
@@ -62,6 +62,9 @@ import { login, getCaptcha } from '@/api/login';
 import login_center_bg from '@/assets/images/login_center_bg.png';
 import type { IElForm, IFormRule } from '@/types/element-plus'
 import { setToken } from '@/utils/auth';
+
+// 引入 svg-icon 组件
+import 'virtual:svg-icons-register';
 
 const router = useRouter();
 const route = useRoute();
@@ -164,10 +167,20 @@ onMounted(() => {
   width: 360px;
   margin: 140px auto;
   border-top: 10px solid #409EFF;
-}
 
-.login-title {
-  text-align: center;
+  .login-title {
+    text-align: center;
+  }
+
+  :deep(.el-form-item__content) {
+    display: flex;
+  }
+
+  .captcha-img {
+    width: 110px;
+    /* background-color: #409EFF; */
+    /* height: 50px; */
+  }
 }
 
 .login-center-layout {
@@ -177,15 +190,5 @@ onMounted(() => {
   max-width: 100%;
   max-height: 100%;
   margin-top: 200px;
-}
-
-.captcha-img {
-  width: 110px;
-  /* background-color: #409EFF; */
-  /* height: 50px; */
-}
-
-.login-form-layout :deep(.el-form-item__content) {
-  display: flex;
 }
 </style>
