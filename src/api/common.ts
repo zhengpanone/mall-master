@@ -2,7 +2,7 @@
  * 公共基础接口封装
  */
 import request from '@/utils/request'
-import { IResponseData, ILoginInfo, ILoginRresponse, ILoginData } from './types/common'
+import { IResponseData, ILoginInfo, ILoginResponse, ILoginData } from './types/common'
 
 export const getLoginInfo = () => {
   return request<IResponseData<ILoginInfo>>({
@@ -24,7 +24,7 @@ export const getCaptcha = () => {
 }
 
 export const login = (data: ILoginData) => {
-  return request<IResponseData<ILoginRresponse>>({
+  return request<IResponseData<ILoginResponse>>({
     method: 'POST',
     url: '/api/user/login',
     data,
@@ -38,5 +38,13 @@ export const logout = () => {
     headers: {
       Authorization: 'Bearer token',
     },
+  })
+}
+
+
+export const policy=()=> {
+  return request({
+    url:'/token',
+    method:'get',
   })
 }

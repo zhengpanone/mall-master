@@ -20,9 +20,9 @@ const routes: RouteRecordRaw = {
       },
     },
     {
-      path: 'product_classify',
-      name: 'product_classify',
-      component: () => import('@/views/product/classify/index.vue'),
+      path: 'product_category',
+      name: 'product_category',
+      component: () => import('@/views/pms/productCategory/index.vue'),
       meta: {
         title: '商品分类',
       },
@@ -30,19 +30,19 @@ const routes: RouteRecordRaw = {
     {
       path: 'product_attr',
       name: 'product_attr',
-      component: () => import('@/views/product/attr/index.vue'),
+      component: () => import('@/views/pms/productAttr/index.vue'),
       meta: {
-        title: '商品规格',
+        title: '商品类型',
       },
     },
-    {
+    /*{
       path: 'product_reply',
       name: 'product_reply',
-      component: () => import('@/views/product/reply/index.vue'),
+      component: () => import('@/views/pms/reply/index.vue'),
       meta: {
         title: '商品评论',
       },
-    },
+    },*/
   ],
 }
 

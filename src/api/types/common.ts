@@ -33,7 +33,7 @@ export interface IMenu {
   children?: IMenu[]
 }
 
-export interface ILoginRresponse {
+export interface ILoginResponse {
   token: string
   expires_time: number
   menus: IMenu[]

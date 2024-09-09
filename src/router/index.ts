@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import ProductRoutes from './modules/product'
-import PermissionRoutes from './modules/permission'
+import UmsRoutes from './modules/ums'
 import AppLayout from '@/layout/AppLayout.vue'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
         },
       },
       ProductRoutes,
-      PermissionRoutes,
+      UmsRoutes,
     ],
   },
   {
@@ -43,7 +43,7 @@ const router = createRouter({
   routes,
 })
 // 全局前置守卫
-router.beforeEach((to, from) => {
+/*router.beforeEach((to, from) => {
   const store = indexStore()
   if (to.meta.requireAuth && !store.$state.user) {
     return {
@@ -52,7 +52,7 @@ router.beforeEach((to, from) => {
     }
   }
   nprogress.start()
-})
+})*/
 
 router.afterEach(() => {
   nprogress.done()
