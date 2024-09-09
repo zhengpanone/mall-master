@@ -42,9 +42,9 @@ export const logout = () => {
 }
 
 
-export const policy=()=> {
+export const ossPolicy=()=> {
   return request({
-    url:'/token',
+    url:'/oss/token',
     method:'get',
   })
 }
