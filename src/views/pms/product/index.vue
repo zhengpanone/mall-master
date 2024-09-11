@@ -241,7 +241,7 @@ const handleSearchList = () => {
 };
 
 const handleAddProduct = () => {
-  router.push({ path: '/addProduct' });
+  router.push({ path: '/product/product_add' });
 };
 
 const handleBatchOperate = async () => {

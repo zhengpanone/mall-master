@@ -11,7 +11,7 @@ const routes: RouteRecordRaw = {
   children: [
     {
       path: 'product_list',
-      name: 'product_list',
+      name: 'productList',
       component: () => import('@/views/pms/product/index.vue'),
       meta: {
         // 自定义元数据
@@ -20,12 +20,26 @@ const routes: RouteRecordRaw = {
       },
     },
     {
+      path: 'product_add',
+      name: 'productAdd',
+      component: () => import('@/views/pms/product/add.vue'),
+      meta: {title: '添加商品', icon: 'product-add', hidden: true},
+      
+
+    },
+    {
       path: 'product_category',
-      name: 'product_category',
+      name: 'productCategory',
       component: () => import('@/views/pms/productCategory/index.vue'),
       meta: {
         title: '商品分类',
       },
+    },
+    {
+      path: 'product_category_add',
+      name: 'productCategoryAdd',
+      component: () => import('@/views/pms/productCategory/add.vue'),
+      meta: {title: '添加商品分类', hidden: true},
     },
     {
       path: 'product_attr',

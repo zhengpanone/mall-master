@@ -86,7 +86,7 @@ const resetParentId = () => {
 }
 // 跳转到添加分类页面
 const handleAddProductCate = () => {
-  router.push('/addProductCate');
+  router.push('/product/product_category_add');
 }
 
 // `${data.data.name+data.data.is_tab?'显示':'不显示'}在导航栏？`

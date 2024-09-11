@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
+    "@types/mockjs": "^1.0.10",
     "@types/node": "22.5.4",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.9.15",

@@ -16,7 +16,7 @@ request.interceptors.request.use(
     const store = indexStore()
     const user = store.$state.user
     if (user && user.token && config.headers) {
-      config.headers.Authorization = `Bearer ${user.token}`
+      config.headers['Authorization'] = `Bearer ${user.token}`
     }
     return config
   },
@@ -35,7 +35,7 @@ request.interceptors.response.use(
 
     if (!status || status === 200) {
       // 正确情况
-      return response
+      return Promise.resolve(response)
     }
     // 登录过期
     if (status === 410000) {

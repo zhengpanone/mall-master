@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import ProductRoutes from './modules/product'
+import OrderRoutes from './modules/order'
 import UmsRoutes from './modules/ums'
 import AppLayout from '@/layout/AppLayout.vue'
 import nprogress from 'nprogress'
@@ -25,6 +26,7 @@ const routes: RouteRecordRaw[] = [
         },
       },
       ProductRoutes,
+      OrderRoutes,
       UmsRoutes,
     ],
   },

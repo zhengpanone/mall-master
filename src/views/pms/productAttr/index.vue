@@ -45,7 +45,7 @@
         :current-page.sync="listQuery.pageNum" :total="total">
       </el-pagination>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
+    <el-dialog :title="dialogTitle" v-model="dialogVisible" width="30%">
       <el-form ref="productAttrCatForm" :model="productAttrCate" :rules="rules" label-width="120px">
         <el-form-item label="类型名称" prop="name">
           <el-input v-model="productAttrCate.name" auto-complete="off"></el-input>

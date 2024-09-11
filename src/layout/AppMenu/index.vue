@@ -19,14 +19,14 @@
             <el-menu-item index="/product/product_attr">商品规格</el-menu-item>
             <el-menu-item index="/product/product_reply">商品评论</el-menu-item>
         </el-sub-menu>
-        <el-sub-menu index="/product">
+        <el-sub-menu index="/order">
             <template #title>
                 <el-icon>
                     <location />
                 </el-icon>
                 <span>订单</span>
             </template>
-            <el-menu-item index="">订单列表</el-menu-item>
+            <el-menu-item index="/oms/order_list">订单列表</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="4">
             <el-icon>
