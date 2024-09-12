@@ -42,78 +42,74 @@
     </el-form>
   </el-card>
 </template>
-<script>
-  import {getOrderSetting,updateOrderSetting} from '@/api/orderSetting';
-  const defaultOrderSetting = {
-    id: null,
-    flashOrderOvertime: 0,
-    normalOrderOvertime: 0,
-    confirmOvertime: 0,
-    finishOvertime: 0,
-    commentOvertime: 0
-  };
-  const checkTime = (rule, value, callback) => {
-    if (!value) {
-      return callback(new Error('时间不能为空'));
-    }
-    console.log("checkTime",value);
-    let intValue = parseInt(value);
-    if (!Number.isInteger(intValue)) {
-      return callback(new Error('请输入数字值'));
-    }
-    callback();
-  };
-  export default {
-    name: 'orderSetting',
-    data() {
-      return {
-        orderSetting: Object.assign({}, defaultOrderSetting),
-        rules: {
-          flashOrderOvertime:{validator: checkTime, trigger: 'blur' },
-          normalOrderOvertime:{validator: checkTime, trigger: 'blur' },
-          confirmOvertime: {validator: checkTime, trigger: 'blur' },
-          finishOvertime: {validator: checkTime, trigger: 'blur' },
-          commentOvertime:{validator: checkTime, trigger: 'blur' }
-        }
-      }
-    },
-    created(){
-      this.getDetail();
-    },
-    methods:{
-      confirm(formName){
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$confirm('是否要提交修改?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              updateOrderSetting(1,this.orderSetting).then(response=>{
-                this.$message({
-                  type: 'success',
-                  message: '提交成功!',
-                  duration:1000
-                });
-              })
-            });
-          } else {
-            this.$message({
-              message: '提交参数不合法',
-              type: 'warning'
-            });
-            return false;
-          }
-        });
-      },
-      getDetail(){
-        getOrderSetting(1).then(response=>{
-          this.orderSetting=response.data;
-        })
-      }
-    }
+<script lang="ts" setup>
+import { ref, reactive } from 'vue';
+import { getOrderSetting, updateOrderSetting } from '@/api/orderSetting';
+
+// Define the default order setting object
+const defaultOrderSetting = {
+  id: null,
+  flashOrderOvertime: 0,
+  normalOrderOvertime: 0,
+  confirmOvertime: 0,
+  finishOvertime: 0,
+  commentOvertime: 0,
+};
+
+// Reactive state for order setting and validation rules
+const orderSetting = reactive(Object.assign({}, defaultOrderSetting));
+const rules = {
+  flashOrderOvertime: { validator: checkTime, trigger: 'blur' },
+  normalOrderOvertime: { validator: checkTime, trigger: 'blur' },
+  confirmOvertime: { validator: checkTime, trigger: 'blur' },
+  finishOvertime: { validator: checkTime, trigger: 'blur' },
+  commentOvertime: { validator: checkTime, trigger: 'blur' },
+};
+
+// Validator function to check time inputs
+const checkTime = (rule: any, value: any, callback: Function) => {
+  if (!value) {
+    return callback(new Error('时间不能为空'));
   }
+  const intValue = parseInt(value);
+  if (!Number.isInteger(intValue)) {
+    return callback(new Error('请输入数字值'));
+  }
+  callback();
+};
+
+// Fetch order setting details on component creation
+const getDetail = async () => {
+  try {
+    const response = await getOrderSetting(1);
+    Object.assign(orderSetting, response.data);
+  } catch (error) {
+    console.error('Failed to fetch order setting:', error);
+  }
+};
+
+// Submit updated order setting
+const confirm = async (formName: string) => {
+  const formRef = ref(formName);
+  formRef.value?.validate(async (valid: boolean) => {
+    if (valid) {
+      try {
+        await updateOrderSetting(1, orderSetting);
+        // Show success message
+        window.$message.success('提交成功!', { duration: 1000 });
+      } catch (error) {
+        console.error('Failed to update order setting:', error);
+      }
+    } else {
+      window.$message.warning('提交参数不合法');
+    }
+  });
+};
+
+// Fetch details on component creation
+getDetail();
 </script>
+
 <style scoped>
   .input-width {
     width: 50%;

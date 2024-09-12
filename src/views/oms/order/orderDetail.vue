@@ -57,37 +57,37 @@
         :data="order.goods"
         style="width: 100%;margin-top: 20px" border>
         <el-table-column label="商品图片" width="120" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <img :src="scope.row.image" style="height: 80px">
           </template>
         </el-table-column>
         <el-table-column label="商品名称" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <p>{{scope.row.name}}</p>
           </template>
         </el-table-column>
         <!-- <el-table-column label="商品品牌" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <p>{{scope.row.productBrand}}</p>
           </template>
         </el-table-column> -->
         <el-table-column label="价格" width="120" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <p>价格：￥{{scope.row.price}}</p>
           </template>
         </el-table-column>
         <!-- <el-table-column label="属性" width="120" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{scope.row.productAttr | formatProductAttr}}
           </template>
         </el-table-column> -->
         <el-table-column label="数量" width="120" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{scope.row.nums}}
           </template>
         </el-table-column>
         <!-- <el-table-column label="小计" width="120" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             ￥{{scope.row.productPrice*scope.row.productQuantity}}
           </template>
         </el-table-column> -->
@@ -102,333 +102,225 @@
     </el-card>
   </div>
 </template>
-<script>
-  import {updateReceiverInfo,updateMoneyInfo,closeOrder,updateOrderNote,deleteOrder} from '@/api/order';
-  import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
-  import {getOrderEach} from '@/apis/goods';
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { updateReceiverInfo, updateMoneyInfo, closeOrder, updateOrderNote, deleteOrder } from '@/api/oms/order';
+import LogisticsDialog from '@/views/oms/order/components/logisticsDialog.vue';
+import { getOrderEach } from '@/api/pms/goods';
+import { formatDate } from '@/utils/date';
+import VDistpicker from 'v-distpicker';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-  import {formatDate} from '@/utils/date';
-  import VDistpicker from 'v-distpicker';
-  const defaultReceiverInfo = {
-    orderId:null,
-    receiverName:null,
-    receiverPhone:null,
-    receiverPostCode:null,
-    receiverDetailAddress:null,
-    receiverProvince:null,
-    receiverCity:null,
-    receiverRegion:null,
-    status:null
+const defaultReceiverInfo = {
+  orderId: null,
+  receiverName: null,
+  receiverPhone: null,
+  receiverPostCode: null,
+  receiverDetailAddress: null,
+  receiverProvince: null,
+  receiverCity: null,
+  receiverRegion: null,
+  status: null
+};
+
+// 响应式状态
+const id = ref(null);
+const order = ref({});
+const receiverDialogVisible = ref(false);
+const receiverInfo = ref({ ...defaultReceiverInfo });
+const moneyDialogVisible = ref(false);
+const moneyInfo = ref({ orderId: null, freightAmount: 0, discountAmount: 0, status: null });
+const messageDialogVisible = ref(false);
+const message = ref({ title: null, content: null });
+const closeDialogVisible = ref(false);
+const closeInfo = ref({ note: null, id: null });
+const markOrderDialogVisible = ref(false);
+const markInfo = ref({ note: null });
+const logisticsDialogVisible = ref(false);
+const payStatusDic = ref({
+  'TRADE_SUCCESS': '成功',
+  'TRADE_CLOSE': '超时关闭',
+  'WAIT_BUYER_PAY': '交易创建',
+  'TRADE_FINISHED': '交易结束',
+  'paying': '待支付'
+});
+
+const route = useRoute();
+const router = useRouter();
+
+onMounted(() => {
+  id.value = route.query.id;
+  getOrderEach(id.value).then(response => {
+    order.value = response;
+  });
+});
+
+// 格式化函数
+const formatTime = (time) => {
+  if (!time) return '';
+  const date = new Date(time);
+  return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+};
+
+const formatStepStatus = (value) => {
+  if (value === 1) return 2;
+  if (value === 2) return 3;
+  if (value === 3) return 4;
+  return 1;
+};
+
+// 事件处理函数
+const onSelectRegion = (data) => {
+  receiverInfo.value.receiverProvince = data.province.value;
+  receiverInfo.value.receiverCity = data.city.value;
+  receiverInfo.value.receiverRegion = data.area.value;
+};
+
+const showUpdateReceiverDialog = () => {
+  receiverDialogVisible.value = true;
+  receiverInfo.value = {
+    orderId: order.value.id,
+    receiverName: order.value.receiverName,
+    receiverPhone: order.value.receiverPhone,
+    receiverPostCode: order.value.receiverPostCode,
+    receiverDetailAddress: order.value.receiverDetailAddress,
+    receiverProvince: order.value.receiverProvince,
+    receiverCity: order.value.receiverCity,
+    receiverRegion: order.value.receiverRegion,
+    status: order.value.status
   };
-  export default {
-    name: 'orderDetail',
-    components: { VDistpicker, LogisticsDialog},
-    data() {
-      return {
-        id: null,
-        order: {},
-        receiverDialogVisible:false,
-        receiverInfo:Object.assign({},defaultReceiverInfo),
-        moneyDialogVisible:false,
-        moneyInfo:{orderId:null, freightAmount:0, discountAmount:0,status:null},
-        messageDialogVisible:false,
-        message: {title:null, content:null},
-        closeDialogVisible:false,
-        closeInfo:{note:null,id:null},
-        markOrderDialogVisible:false,
-        markInfo:{note:null},
-        logisticsDialogVisible:false,
-        payStatusDic:{
-          'TRADE_SUCCESS':'成功',
-          'TRADE_CLOSE': '超时关闭',
-          'WAIT_BUYER_PAY':'交易创建',
-          'TRADE_FINISHED':'交易结束',
-          'paying':'待支付'
-        }
-      }
-    },
-    created() {
-      this.id = this.list = this.$route.query.id;
-      getOrderEach(this.id).then(response => {
-        this.order = response;
+};
+
+const handleUpdateReceiverInfo = () => {
+  ElMessageBox.confirm('是否要修改收货信息?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    updateReceiverInfo(receiverInfo.value).then(() => {
+      receiverDialogVisible.value = false;
+      ElMessage.success('修改成功!');
+      getOrderEach(id.value).then(response => {
+        order.value = response.data;
       });
-    },
-    filters: {
-      formatPay(value) {
-        if(value=='alipay'){
-          return '支付宝';
-        }else{
-          return '微信支付';
-        }
-      },
-      formatLongText(value) {
-        if(value===undefined||value===null||value===''){
-          return '暂无';
-        }else if(value.length>8){
-          return value.substr(0, 8) + '...';
-        }else{
-          return value;
-        }
-      },
-      formatPayType(value) {
-        if (value === 1) {
-          return '支付宝';
-        } else if (value === 2) {
-          return '微信';
-        } else {
-          return '未支付';
-        }
-      },
-      formatSourceType(value) {
-        if (value === 1) {
-          return 'APP订单';
-        } else {
-          return 'PC订单';
-        }
-      },
-      formatOrderType(value) {
-        if (value === 1) {
-          return '秒杀订单';
-        } else {
-          return '正常订单';
-        }
-      },
-      formatAddress(order) {
-        let str = order.receiverProvince;
-        if (order.receiverCity != null) {
-          str += "  " + order.receiverCity;
-        }
-        str += "  " + order.receiverRegion;
-        str += "  " + order.receiverDetailAddress;
-        return str;
-      },
-      formatStatus(value) {
-        if (value === 1) {
-          return '待发货';
-        } else if (value === 2) {
-          return '已发货';
-        } else if (value === 3) {
-          return '已完成';
-        } else if (value === 4) {
-          return '已关闭';
-        } else if (value === 5) {
-          return '无效订单';
-        } else {
-          return '待付款';
-        }
-      },
-      formatPayStatus(value) {
-        if (value === 0) {
-          return '未支付';
-        } else if(value===4){
-          return '已退款';
-        }else{
-          return '已支付';
-        }
-      },
-      formatDeliverStatus(value) {
-        if (value === 0||value === 1) {
-          return '未发货';
-        } else {
-          return '已发货';
-        }
-      },
-      formatProductAttr(value){
-        if(value==null){
-          return '';
-        }else{
-          let attr = JSON.parse(value);
-          let result='';
-          for(let i=0;i<attr.length;i++){
-            result+=attr[i].key;
-            result+=":";
-            result+=attr[i].value;
-            result+=";";
-          }
-          return result;
-        }
-      }
-    },
-    methods: {
-      onSelectRegion(data){
-        this.receiverInfo.receiverProvince=data.province.value;
-        this.receiverInfo.receiverCity=data.city.value;
-        this.receiverInfo.receiverRegion=data.area.value;
-      },
-      formatTime(time) {
-        if (time == null || time === '') {
-          return '';
-        }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-      },
-      formatStepStatus(value) {
-        if (value === 1) {
-          //待发货
-          return 2;
-        } else if (value === 2) {
-          //已发货
-          return 3;
-        } else if (value === 3) {
-          //已完成
-          return 4;
-        }else {
-          //待付款、已关闭、无限订单
-          return 1;
-        }
-      },
-      showUpdateReceiverDialog(){
-        this.receiverDialogVisible=true;
-        this.receiverInfo={
-          orderId:this.order.id,
-          receiverName:this.order.receiverName,
-          receiverPhone:this.order.receiverPhone,
-          receiverPostCode:this.order.receiverPostCode,
-          receiverDetailAddress:this.order.receiverDetailAddress,
-          receiverProvince:this.order.receiverProvince,
-          receiverCity:this.order.receiverCity,
-          receiverRegion:this.order.receiverRegion,
-          status:this.order.status
-        }
-      },
-      handleUpdateReceiverInfo(){
-        this.$confirm('是否要修改收货信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          updateReceiverInfo(this.receiverInfo).then(response=>{
-            this.receiverDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '修改成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      showUpdateMoneyDialog(){
-        this.moneyDialogVisible=true;
-        this.moneyInfo.orderId=this.order.id;
-        this.moneyInfo.freightAmount=this.order.freightAmount;
-        this.moneyInfo.discountAmount=this.order.discountAmount;
-        this.moneyInfo.status=this.order.status;
-      },
-      handleUpdateMoneyInfo(){
-        this.$confirm('是否要修改费用信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          updateMoneyInfo(this.moneyInfo).then(response=>{
-            this.moneyDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '修改成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      showMessageDialog(){
-        this.messageDialogVisible=true;
-        this.message.title=null;
-        this.message.content=null;
-      },
-      handleSendMessage(){
-        this.$confirm('是否要发送站内信?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.messageDialogVisible=false;
-          this.$message({
-            type: 'success',
-            message: '发送成功!'
-          });
-        });
-      },
-      showCloseOrderDialog(){
-        this.closeDialogVisible=true;
-        this.closeInfo.note=null;
-        this.closeInfo.id=this.id;
-      },
-      handleCloseOrder(){
-        this.$confirm('是否要关闭?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            let params = new URLSearchParams();
-            params.append("ids",[this.closeInfo.id]);
-            params.append("note",this.closeInfo.note);
-            closeOrder(params).then(response=>{
-              this.closeDialogVisible=false;
-              this.$message({
-                type: 'success',
-                message: '订单关闭成功!'
-              });
-              getOrderDetail(this.id).then(response => {
-                this.order = response.data;
-              });
-            });
-        });
-      },
-      showMarkOrderDialog(){
-        this.markOrderDialogVisible=true;
-        this.markInfo.id=this.id;
-        this.closeOrder.note=null;
-      },
-      handleMarkOrder(){
-        this.$confirm('是否要备注订单?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let params = new URLSearchParams();
-          params.append("id",this.markInfo.id);
-          params.append("note",this.markInfo.note);
-          params.append("status",this.order.status);
-          updateOrderNote(params).then(response=>{
-            this.markOrderDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '订单备注成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      handleDeleteOrder(){
-        this.$confirm('是否要进行该删除操作?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let params = new URLSearchParams();
-          params.append("ids",[this.id]);
-          deleteOrder(params).then(response=>{
-            this.$message({
-              message: '删除成功！',
-              type: 'success',
-              duration: 1000
-            });
-            this.$router.back();
-          });
-        })
-      },
-      showLogisticsDialog(){
-        this.logisticsDialogVisible=true;
-      }
-    }
-  }
+    });
+  });
+};
+
+const showUpdateMoneyDialog = () => {
+  moneyDialogVisible.value = true;
+  moneyInfo.value.orderId = order.value.id;
+  moneyInfo.value.freightAmount = order.value.freightAmount;
+  moneyInfo.value.discountAmount = order.value.discountAmount;
+  moneyInfo.value.status = order.value.status;
+};
+
+const handleUpdateMoneyInfo = () => {
+  ElMessageBox.confirm('是否要修改费用信息?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    updateMoneyInfo(moneyInfo.value).then(() => {
+      moneyDialogVisible.value = false;
+      ElMessage.success('修改成功!');
+      getOrderEach(id.value).then(response => {
+        order.value = response.data;
+      });
+    });
+  });
+};
+
+const showMessageDialog = () => {
+  messageDialogVisible.value = true;
+  message.value.title = null;
+  message.value.content = null;
+};
+
+const handleSendMessage = () => {
+  ElMessageBox.confirm('是否要发送站内信?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    messageDialogVisible.value = false;
+    ElMessage.success('发送成功!');
+  });
+};
+
+const showCloseOrderDialog = () => {
+  closeDialogVisible.value = true;
+  closeInfo.value.note = null;
+  closeInfo.value.id = id.value;
+};
+
+const handleCloseOrder = () => {
+  ElMessageBox.confirm('是否要关闭?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    const params = new URLSearchParams();
+    params.append("ids", [closeInfo.value.id]);
+    params.append("note", closeInfo.value.note);
+    closeOrder(params).then(() => {
+      closeDialogVisible.value = false;
+      ElMessage.success('订单关闭成功!');
+      getOrderEach(id.value).then(response => {
+        order.value = response.data;
+      });
+    });
+  });
+};
+
+const showMarkOrderDialog = () => {
+  markOrderDialogVisible.value = true;
+  markInfo.value.id = id.value;
+  markInfo.value.note = null;
+};
+
+const handleMarkOrder = () => {
+  ElMessageBox.confirm('是否要备注订单?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    const params = new URLSearchParams();
+    params.append("id", markInfo.value.id);
+    params.append("note", markInfo.value.note);
+    params.append("status", order.value.status);
+    updateOrderNote(params).then(() => {
+      markOrderDialogVisible.value = false;
+      ElMessage.success('订单备注成功!');
+      getOrderEach(id.value).then(response => {
+        order.value = response.data;
+      });
+    });
+  });
+};
+
+const handleDeleteOrder = () => {
+  ElMessageBox.confirm('是否要进行该删除操作?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    const params = new URLSearchParams();
+    params.append("ids", [id.value]);
+    deleteOrder(params).then(() => {
+      ElMessage.success('删除成功！');
+      router.back();
+    });
+  });
+};
+
+const showLogisticsDialog = () => {
+  logisticsDialogVisible.value = true;
+};
+
 </script>
+
 <style scoped>
   .detail-container {
     width: 80%;

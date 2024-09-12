@@ -120,7 +120,7 @@ import LogisticsDialog from "@/views/oms/order/components/logisticsDialog.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { onMounted } from "vue";
 
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 const router = useRouter();
 
 
