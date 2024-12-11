@@ -3,6 +3,30 @@ export interface IResponseData<T> {
   msg: string
   data: T
 }
+
+// 定义完整的 API 响应结构
+export interface IResponsePageData<T> {
+  code: number;
+  msg: string;
+  data: {
+    list: T[];
+    pageNum: number;
+    pageSize: number;
+    total: number;
+    totalPage: number;
+  }
+}
+
+
+// 定义分页和总条数
+export interface IPagination {
+  pageNum: number;
+  pageSize: number;
+  total: number;
+  totalPage: number;
+}
+
+
 /**
  * 登录接口参数
  */

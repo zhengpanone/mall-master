@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import {ElMessage} from 'element-plus'
+import { ElMessage } from 'element-plus'
 import './style.css'
 import App from './App.vue'
 import router from './router/'
@@ -8,6 +8,10 @@ import i18n from './lang/index'
 import ElementPlus from './plugins/element-plus'
 // 重要：注册 SVG 图标组件
 import 'virtual:svg-icons-register'
+
+// 引入 normalize.css
+import 'normalize.css/normalize.css'
+
 // 加载全局样式,只能加载非变量、mixin
 import './styles/index.scss'
 const app = createApp(App)

@@ -115,7 +115,7 @@ import { setSupport, getCookie } from "@/utils/support";
 import { login, getCaptcha } from "@/api/login";
 import login_center_bg from "@/assets/images/login_center_bg.png";
 import type { IElForm, IFormRule } from "@/types/element-plus";
-import { setToken } from "@/utils/auth";
+import { indexStore } from "@/store/index";
 
 // 引入 svg-icon 组件
 import "virtual:svg-icons-register";
@@ -176,7 +176,6 @@ const captcha = ref<any>({});
 const changeCaptchas = async () => {
   try {
     const res = await getCaptcha();
-    console.log(res.data);
     captcha.value = res.data;
   } catch (error) {
     console.error(error);
@@ -193,13 +192,15 @@ const handleLogin = async () => {
 
   loading.value = true;
   loginForm.captcha = captcha.value.captchaId;
-
   try {
-    const response = await login(loginForm);
-    const data = response.data;
-    const tokenStr = data.token;
-    setToken(tokenStr);
-    loading.value = false;
+    const loginData = await login(loginForm).finally(() => {
+      loading.value = false;
+    });
+
+    const data = loginData.data;
+    const store = indexStore();
+    store.setUser({ ...loginData.data.userInfo, token: loginData.data.token });
+
     let redirect = route.query.redirect || "/";
     if (typeof redirect !== "string") {
       redirect = "/";

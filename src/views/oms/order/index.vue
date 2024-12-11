@@ -47,24 +47,24 @@
         <el-table-column label="操作" width="200" align="center">
           <template v-slot="scope">
             <el-button
-              size="mini"
+              size="small"
               @click="handleViewOrder(scope.$index, scope.row)"
               >查看订单</el-button
             >
             <!-- <el-button
-              size="mini"
+              size="small"
               @click="handleCloseOrder(scope.$index, scope.row)"
               v-show="scope.row.status===0">关闭订单</el-button>
             <el-button
-              size="mini"
+              size="small"
               @click="handleDeliveryOrder(scope.$index, scope.row)"
               v-show="scope.row.status===1">订单发货</el-button>
             <el-button
-              size="mini"
+              size="small"
               @click="handleViewLogistics(scope.$index, scope.row)"
               v-show="scope.row.status===2||scope.row.status===3">订单跟踪</el-button>
             <el-button
-              size="mini"
+              size="small"
               type="danger"
               @click="handleDeleteOrder(scope.$index, scope.row)"
               v-show="scope.row.status===4">删除订单</el-button> -->
@@ -78,8 +78,8 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         layout="total, sizes,prev, pager, next,jumper"
-        :current-page.sync="pageNum"
-        :page-size="listQuery.pageSize"
+        v-model:current-page.sync="pageNum"
+        v-model:page-size="listQuery.pageSize"
         :page-sizes="[5, 10, 15]"
         :total="total"
       >
@@ -122,7 +122,6 @@ import { onMounted } from "vue";
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-
 
 const defaultListQuery = {
   pageNum: 1,
