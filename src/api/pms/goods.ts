@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import { CategoryData, ICategoryParam } from './types/category';
-import { IListData, IResponseData, IResponsePageData } from '../types/common'
+import { IResponseData, IResponsePageData } from '../types/common'
 import { ProductData } from './types/product';
 
 let host = 'http://shop.projectsedu.com';
@@ -10,14 +10,7 @@ let orderUrl = "http://127.0.0.1:8023"
 let userUrl = "http://127.0.0.1:18021"
 let userOpUrl = "http://127.0.0.1:8027"
 export let ossUrl = "http://127.0.0.1:8029"
-// 获取商品分类列表
-export const getCategoryList = (params: ICategoryParam) => {
-  return request<IResponseData<CategoryData>>({
-    url: goodsUrl + '/v1/goods/category/list',
-    method: 'get',
-    params: params
-  })
-}
+
 export const getCategoryDetail = (id: any) => {
   return request({
     url: goodsUrl + '/v1/categorys/' + id,

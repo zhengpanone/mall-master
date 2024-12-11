@@ -212,10 +212,10 @@ import {
   getGoods,
   deleteGoods,
   getBrands,
-  getCategoryList,
   putGoodsStatus,
   getBrandsByCate,
 } from "@/api/pms/goods";
+import { getCategoryList } from "@/api/pms/category";
 import { CategoryData } from "@/api/pms/types/category";
 import { ProductData } from "@/api/pms/types/product";
 
@@ -319,7 +319,7 @@ const getBrandList = async () => {
 
 const getProductCateList = async () => {
   const response = await getCategoryList({});
-  productCateOptions.value = response;
+  productCateOptions.value = response.data;
 };
 
 const handleSearchEditSku = async () => {
