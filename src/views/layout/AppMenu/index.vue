@@ -17,6 +17,8 @@
             <el-menu-item index="/product/product_list">商品列表</el-menu-item>
             <el-menu-item index="/product/product_category">商品分类</el-menu-item>
             <el-menu-item index="/product/product_attr">商品规格</el-menu-item>
+            <el-menu-item index="/product/brand">商品品牌</el-menu-item>
+            <el-menu-item index="/product/brand">品牌分类</el-menu-item>
             <el-menu-item index="/product/product_reply">商品评论</el-menu-item>
         </el-sub-menu>
         <el-sub-menu index="/order">

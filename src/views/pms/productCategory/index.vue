@@ -54,7 +54,7 @@ import {
   getCategoryList,
   deleteCategorys,
   putCategorys,
-} from "@/api/pms/goods";
+} from "@/api/pms/category";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox, ElMessage } from "element-plus";
@@ -75,7 +75,7 @@ const getList = async () => {
   try {
     const response = await getCategoryList(null);
     listLoading.value = false;
-    list.value = response;
+    list.value = response.data;
   } catch (error) {
     listLoading.value = false;
   }

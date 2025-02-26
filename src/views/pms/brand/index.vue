@@ -9,14 +9,8 @@
       </el-button>
     </el-card>
     <div class="table-container">
-      <el-table
-        ref="brandTable"
-        :data="list"
-        style="width: 100%"
-        @selection-change="handleSelectionChange"
-        v-loading="listLoading"
-        border
-      >
+      <el-table ref="brandTable" :data="list" style="width: 100%" @selection-change="handleSelectionChange"
+        v-loading="listLoading" border>
         <el-table-column label="品牌id" align="center">
           <template v-slot="scope">{{ scope.row.id }}</template>
         </el-table-column>
@@ -31,31 +25,18 @@
         </el-table-column>
         <el-table-column label="操作" width="200" align="center">
           <template v-slot="scope">
-            <el-button
-              size="small"
-              @click="handleUpdate(scope.$index, scope.row)"
-              >编辑
+            <el-button size="small" @click="handleUpdate(scope.$index, scope.row)">编辑
             </el-button>
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="pagination-container">
-      <el-pagination
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes,prev, pager, next,jumper"
-        v-model:page-size="listQuery.pageSize"
-        v-model:current-page.sync="currentPage"
-        :total="total"
-      >
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        layout="total, sizes,prev, pager, next,jumper" v-model:page-size="listQuery.pageSize"
+        v-model:current-page.sync="currentPage" :total="total">
         <!-- :page-sizes="[5,10,15]" -->
       </el-pagination>
     </div>
@@ -97,16 +78,23 @@ const multipleSelection = ref([]);
 
 const getList = async () => {
   listLoading.value = true;
-  const response = await getBrands(listQuery.value);
-  list.value = [...list.value, ...(response.data || [])];
+  try {
+    const response = await getBrands(listQuery.value);
 
-  listLoading.value = false;
-  total.value = response.total;
-  currentPage.value = listQuery.value.pageNum;
-  listQuery.value.pageNum =
-    response.data.length == listQuery.value.pageSize
-      ? listQuery.value.pageNum + 2
-      : listQuery.value.pageNum;
+    list.value = response.data.list;
+    total.value = response.data.total;
+    currentPage.value = listQuery.value.pageNum;
+    listQuery.value.pageNum =
+      response.data.length == listQuery.value.pageSize
+        ? listQuery.value.pageNum + 2
+        : listQuery.value.pageNum;
+  } finally {
+    listLoading.value = false;
+  }
+
+
+
+
 };
 
 onMounted(() => {
@@ -227,7 +215,7 @@ const handleBatchOperate = () => {
 };
 
 const addBrand = () => {
-  router.push({ path: "/addBrand" });
+  router.push({ path: "addBrand" });
 };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>

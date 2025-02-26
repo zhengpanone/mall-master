@@ -24,20 +24,7 @@ export const postCategorys = (params: any) => {
     data: params
   })
 }
-export const putCategorys = (id: any, params: any) => {
-  return request({
-    url: goodsUrl + '/v1/categorys/' + id,
-    method: 'put',
-    data: params
-  })
-}
-export const deleteCategorys = (id: any, params: any) => {
-  return request({
-    url: goodsUrl + '/v1/categorys/' + id,
-    method: 'delete',
-    data: params
-  })
-}
+
 // 品牌
 export const getBrands = (params: any) => {
   return request({

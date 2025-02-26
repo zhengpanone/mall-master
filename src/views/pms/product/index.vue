@@ -50,6 +50,7 @@
               v-model="goodsParams.brandId"
               placeholder="请选择品牌"
               clearable
+              style="width: 203px"
             >
               <el-option
                 v-for="item in brandOptions"
@@ -293,8 +294,9 @@ const getProductSkuSp = (row: any, index: any) => {
 };
 
 const getBrand = async (id: any) => {
-  goodsParams.c = id[2];
-  const res = await getBrandsByCate(id[2], null);
+  console.log("id", id);
+  goodsParams.c = id[1];
+  const res = await getBrandsByCate(id[1], null);
   brandOptions.value = res;
 };
 
@@ -314,11 +316,12 @@ const getProductList = async () => {
 
 const getBrandList = async () => {
   const response = await getBrands(null);
-  brandOptions.value = response;
+  brandOptions.value = response.data.data;
 };
 
 const getProductCateList = async () => {
   const response = await getCategoryList({});
+  console.log("getProductCateList", JSON.stringify(response.data));
   productCateOptions.value = response.data;
 };
 
@@ -551,3 +554,7 @@ onMounted(() => {
   getProductCateList();
 });
 </script>
+
+<style scoped>
+  /* 如果需要更改全局样式，可以在此处添加 */
+</style>

@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       // 启用 CSS Source Map
-      devSourcemap: mode !== 'production',
+      devSourcemap: true,
       preprocessorOptions: {
         scss: {
           additionalData: '@import "@/styles/variables.scss";',
@@ -60,6 +60,11 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 2000,
       // 启用/禁用 gzip 压缩大小报告
       reportCompressedSize: false,
+      rollupOptions: {
+        output: {
+          dir: 'dist', // 确保输出路径一致
+        },
+      },
     }
   }
 })

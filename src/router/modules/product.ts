@@ -42,6 +42,28 @@ const routes: RouteRecordRaw = {
       meta: {title: '添加商品分类', hidden: true},
     },
     {
+      path: 'brand',
+      name: 'brand',
+      component: () => import('@/views/pms/brand/index.vue'),
+      meta: {
+        title: '商品品牌',
+      },
+    },
+    {
+      path: 'addBrand',
+      name: 'addBrand',
+      component: () => import('@/views/pms/brand/add.vue'),
+      meta: {title: '添加品牌',hidden: true},
+      
+    },
+    // {
+    //   path: 'updateBrand',
+    //   name: 'updateBrand',
+    //   component: () => import('@/views/pms/brand/update'),
+    //   meta: {title: '编辑品牌'hidden: true},
+      
+    // },
+    {
       path: 'product_attr',
       name: 'product_attr',
       component: () => import('@/views/pms/productAttr/index.vue'),
