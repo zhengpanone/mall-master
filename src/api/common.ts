@@ -31,20 +31,11 @@ export const login = (data: ILoginData) => {
   })
 }
 
-export const logout = () => {
-  return request<IResponseData<null>>({
-    method: 'POST',
-    url: '/api/user/logout',
-    headers: {
-      Authorization: 'Bearer token',
-    },
-  })
-}
 
 
-export const ossPolicy=()=> {
+export const ossPolicy = () => {
   return request({
-    url:'/oss/token',
-    method:'get',
+    url: '/oss/token',
+    method: 'get',
   })
 }

@@ -15,7 +15,7 @@
     "build:analyze": "turbo build:analyze",
     "check:circular": "vsh check-circular",
     "check:cspell": "cspell lint **/*.ts **/README.md .changeset/*.md --no-progress",
-    "dev": "vite",
+    "dev": "pnpm vite --mode development",
     "preview": "vite preview",
     "test:unit": "vitest"
   },

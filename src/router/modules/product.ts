@@ -23,8 +23,8 @@ const routes: RouteRecordRaw = {
       path: 'product_add',
       name: 'productAdd',
       component: () => import('@/views/pms/product/add.vue'),
-      meta: {title: '添加商品', icon: 'product-add', hidden: true},
-      
+      meta: { title: '添加商品', icon: 'product-add', hidden: true },
+
 
     },
     {
@@ -39,29 +39,29 @@ const routes: RouteRecordRaw = {
       path: 'product_category_add',
       name: 'productCategoryAdd',
       component: () => import('@/views/pms/productCategory/add.vue'),
-      meta: {title: '添加商品分类', hidden: true},
+      meta: { title: '添加商品分类', hidden: true },
     },
     {
-      path: 'brand',
-      name: 'brand',
-      component: () => import('@/views/pms/brand/index.vue'),
+      path: 'product_brand',
+      name: 'productBrand',
+      component: () => import('@/views/pms/productBrand/index.vue'),
       meta: {
         title: '商品品牌',
       },
     },
     {
-      path: 'addBrand',
-      name: 'addBrand',
-      component: () => import('@/views/pms/brand/add.vue'),
-      meta: {title: '添加品牌',hidden: true},
-      
+      path: 'product_brand_add',
+      name: 'productBrandAdd',
+      component: () => import('@/views/pms/productBrand/add.vue'),
+      meta: { title: '添加商品品牌', hidden: true },
+
     },
     // {
     //   path: 'updateBrand',
     //   name: 'updateBrand',
     //   component: () => import('@/views/pms/brand/update'),
     //   meta: {title: '编辑品牌'hidden: true},
-      
+
     // },
     {
       path: 'product_attr',

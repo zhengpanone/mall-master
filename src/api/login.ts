@@ -1,63 +1,74 @@
 import request from '@/utils/request'
+import { IResponseData } from './types/common'
 let userUrl = "http://127.0.0.1:18021"
 
-export const login=(params:any) =>{
+export const login = (params: any) => {
   return request({
-    url:userUrl+'/v1/user/pwd_login',
-    method:'post',
-    data:params
+    url: userUrl + '/v1/user/pwd_login',
+    method: 'post',
+    data: params
   })
 }
 
-export const getCaptcha=()=> {
-  return request({
-    url:userUrl+'/v1/base/captcha',
-    method:'get'
+export const logout = () => {
+  return request<IResponseData<null>>({
+    method: 'POST',
+    url: userUrl + '/v1/user/logout',
+    // headers: {
+    //   Authorization: 'Bearer token',
+    // },
   })
 }
 
-export const createBrand=(data:any)=> {
+export const getCaptcha = () => {
   return request({
-    url:'/brand/create',
-    method:'post',
-    data:data
-  })
-}
-export const updateShowStatus=(data:any)=> {
-  return request({
-    url:'/brand/update/showStatus',
-    method:'post',
-    data:data
+    url: userUrl + '/v1/base/captcha',
+    method: 'get'
   })
 }
 
-export const updateFactoryStatus=(data:any)=> {
+export const createBrand = (data: any) => {
   return request({
-    url:'/brand/update/factoryStatus',
-    method:'post',
-    data:data
+    url: '/brand/create',
+    method: 'post',
+    data: data
+  })
+}
+export const updateShowStatus = (data: any) => {
+  return request({
+    url: '/brand/update/showStatus',
+    method: 'post',
+    data: data
   })
 }
 
-export const deleteBrand=(id:any) =>{
+export const updateFactoryStatus = (data: any) => {
   return request({
-    url:'/brand/delete/'+id,
-    method:'get',
+    url: '/brand/update/factoryStatus',
+    method: 'post',
+    data: data
   })
 }
 
-export const getBrand=(id:any) =>{
+export const deleteBrand = (id: any) => {
   return request({
-    url:'/brand/'+id,
-    method:'get',
+    url: '/brand/delete/' + id,
+    method: 'get',
   })
 }
 
-export const updateBrand=(id:any,data:any)=> {
+export const getBrand = (id: any) => {
   return request({
-    url:'/brand/update/'+id,
-    method:'post',
-    data:data
+    url: '/brand/' + id,
+    method: 'get',
+  })
+}
+
+export const updateBrand = (id: any, data: any) => {
+  return request({
+    url: '/brand/update/' + id,
+    method: 'post',
+    data: data
   })
 }
 

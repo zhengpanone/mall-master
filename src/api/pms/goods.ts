@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { CategoryData, ICategoryParam } from './types/category';
+import { BrandData, CategoryData, ICategoryParam } from './types/category';
 import { IResponseData, IResponsePageData } from '../types/common'
 import { ProductData } from './types/product';
 
@@ -33,8 +33,8 @@ export const getBrands = (params: any) => {
     params: params
   })
 }
-export const getBrandsByCate = (id: any, params: any) => {
-  return request({
+export const getBrandsByCate = (id: string, params: any) => {
+  return request<IResponseData<[BrandData]>>({
     url: goodsUrl + '/v1/goods/category-brand/' + id,
     method: 'get',
     params: params

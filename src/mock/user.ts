@@ -13,15 +13,15 @@ const userList = mockJS.mock({
             // 随机生成ip地址
             ip: '@ip',
             // 随机生成省市区地址
-            address:'@county(true)',
+            address: '@county(true)',
             // 随机生成邮政编码
-            zip:'@zip',
+            zip: '@zip',
             // 随机生成18-70之间的年龄
             "age|18-70": 20,
             // 随机生成日期
             date: '@date("yyyy-MM-dd")',
             // 随机生成头像
-            avatar:"@image('200x200')",
+            avatar: "@image('200x200')",
         }
     ]
 })
@@ -65,8 +65,8 @@ export default [
         method: "post",
         response: (res: any) => {
             return {
-                code: 1,
-                message: '密码错误',
+                code: 200,
+                message: '退出成功',
                 data: null
             }
         }

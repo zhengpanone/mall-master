@@ -38,7 +38,8 @@
           <el-form-item label="商品分类：">
             <el-cascader
               clearable
-              v-model="goodsParams.category"
+              v-model="goodsParams.categoryId"
+              placeholder="请选择商品分类"
               @change="getBrand"
               :props="{ value: 'id', label: 'name', children: 'sub_category' }"
               :options="productCateOptions"
@@ -78,7 +79,6 @@
         style="width: 100%"
         @selection-change="handleSelectionChange"
         v-loading="listLoading"
-        border
       >
         <el-table-column label="编号" width="80">
           <template v-slot="scope">
@@ -217,29 +217,18 @@ import {
   getBrandsByCate,
 } from "@/api/pms/goods";
 import { getCategoryList } from "@/api/pms/category";
-import { CategoryData } from "@/api/pms/types/category";
+import { CategoryData, BrandData, GoodsParams } from "@/api/pms/types/category";
 import { ProductData } from "@/api/pms/types/product";
 
 const router = useRouter();
 
-const goodsParams = reactive({
+const goodsParams = reactive<GoodsParams>({
   pageNum: 1,
   pageSize: 20,
   brandId: "",
-  category: "",
+  categoryId: "",
   productName: "",
 });
-
-const defaultListQuery = {
-  keyword: null,
-  pageNum: 1,
-  pageSize: 5,
-  publishStatus: null,
-  verifyStatus: null,
-  productSn: null,
-  productCategoryId: null,
-  brandId: null,
-};
 
 const editSkuInfo = reactive({
   dialogVisible: false,
@@ -259,14 +248,13 @@ const operates = [
 ];
 
 const operateType = ref(null);
-const listQuery = reactive({ ...defaultListQuery });
 const productList = ref<ProductData[]>([]);
 const total = ref<number>(0);
 const listLoading = ref(true);
 const selectProductCateValue = ref(null);
 const multipleSelection = ref([]);
 const productCateOptions = ref<CategoryData[]>([]);
-const brandOptions = ref([]);
+const brandOptions = ref<BrandData[]>([]);
 
 const publishStatusOptions = [
   { value: 1, label: "上架" },
@@ -278,26 +266,24 @@ const verifyStatusOptions = [
   { value: 0, label: "未审核" },
 ];
 
-// Watchers
-watch(selectProductCateValue, (newValue: any) => {
-  if (newValue != null && newValue.length === 2) {
-    listQuery.productCategoryId = newValue[1];
-  } else {
-    listQuery.productCategoryId = null;
+const getBrand = async (id: string[]) => {
+  if (!id || id.length === 0) {
+    goodsParams.categoryId = null;
+    goodsParams.brandId = ""; // 清空品牌选中值
+    brandOptions.value = [];
+    return;
   }
-});
-
-// Methods
-const getProductSkuSp = (row: any, index: any) => {
-  const spData = JSON.parse(row.spData);
-  return spData != null && index < spData.length ? spData[index].value : null;
-};
-
-const getBrand = async (id: any) => {
-  console.log("id", id);
-  goodsParams.c = id[1];
-  const res = await getBrandsByCate(id[1], null);
-  brandOptions.value = res;
+  const currenntCateId = id[id.length - 1];
+  goodsParams.categoryId = currenntCateId;
+  // 清空品牌选中值
+  goodsParams.brandId = "";
+  try {
+    const res = await getBrandsByCate(currenntCateId, null);
+    brandOptions.value = res.data;
+  } catch (error) {
+    console.error("获取品牌失败:", error);
+    brandOptions.value = [];
+  }
 };
 
 /**
@@ -333,7 +319,7 @@ const handleSearchEditSku = async () => {
 };
 
 const handleSearchList = () => {
-  listQuery.pageNum = 1;
+  goodsParams.pageNum = 1;
   getProductList();
 };
 
@@ -422,19 +408,18 @@ const handlePublishStatusChange = (paramname: any, index: any, row: any) => {
   }
 };
 
-const handleNewStatusChange = (index: any, row: any) => {
-  const ids = [row.id];
-  updateNewStatus(row.newStatus, ids);
-};
-
 const handleRecommendStatusChange = (index: any, row: any) => {
   const ids = [row.id];
   handleUpdateRecommendStatus(row.recommandStatus, ids);
 };
 
 const handleResetSearch = () => {
-  selectProductCateValue.value = [];
-  Object.assign(listQuery, defaultListQuery);
+  Object.assign(goodsParams, {
+    productName: "",
+    categoryId: "",
+    brandId: "",
+    pageNum: 1,
+  });
 };
 
 const handleDelete = async (index: any, row: any) => {
@@ -450,7 +435,7 @@ const handleDelete = async (index: any, row: any) => {
       type: "success",
       duration: 1000,
     });
-    list.value.splice(index, 1, null);
+    await getProductList();
   } catch (error) {
     console.error(error);
   }
@@ -556,5 +541,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-  /* 如果需要更改全局样式，可以在此处添加 */
+/* 如果需要更改全局样式，可以在此处添加 */
 </style>
