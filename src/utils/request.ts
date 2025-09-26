@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse,InternalAxiosRequestConfig } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { indexStore } from '@/store/'
 import router from '@/router/'
@@ -11,7 +11,7 @@ const request: AxiosInstance = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use(
-  (config: InternalAxiosRequestConfig<any>)=> {
+  (config: InternalAxiosRequestConfig<any>) => {
     // 统一设置用户身份 token
     const store = indexStore()
     const user = store.$state.user
@@ -38,7 +38,7 @@ request.interceptors.response.use(
       return Promise.resolve(response)
     }
     // 登录过期
-    if (status === 410000) {
+    if (status === 401) {
       if (isRefreshing) return Promise.reject(response)
       isRefreshing = true
       // token过期
@@ -81,17 +81,17 @@ request.interceptors.response.use(
     if (error.response) {
       // 服务器响应了一个错误
       const responseData = error.response.data;
-    // 类型检查和断言
-    if (typeof responseData === 'string') {
-      errorMessage = responseData;
-    } else if (typeof responseData === 'object' && responseData !== null) {
-      if ('msg' in responseData) {
-        errorMessage = (responseData as { msg: string }).msg;
-      } else if ('message' in responseData) {
-        errorMessage = (responseData as { message: string }).message;
+      // 类型检查和断言
+      if (typeof responseData === 'string') {
+        errorMessage = responseData;
+      } else if (typeof responseData === 'object' && responseData !== null) {
+        if ('msg' in responseData) {
+          errorMessage = (responseData as { msg: string }).msg;
+        } else if ('message' in responseData) {
+          errorMessage = (responseData as { message: string }).message;
+        }
       }
-    }
-     
+
     } else if (error.request) {
       // 请求已发出但没有收到响应
       errorMessage = '请求失败，服务器未响应';

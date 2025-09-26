@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       host: '0.0.0.0',
-      open: true,
+      // open: true,
       cors: true, // 允许跨域
       /*proxy: {
         '/api': {

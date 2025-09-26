@@ -14,7 +14,6 @@
         style="width: 100%"
         :data="list"
         v-loading="listLoading"
-        border
       >
         <el-table-column label="编号" width="100" align="center">
           <template v-slot="scope">{{ scope.row.id }}</template>
